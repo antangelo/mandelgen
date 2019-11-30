@@ -1,5 +1,6 @@
 from PIL import Image, ImageColor
 from tqdm import trange
+import argparse
 
 def compute_mandelbrot(point, resolution):
     z = 0
@@ -13,14 +14,26 @@ def compute_mandelbrot(point, resolution):
 def get_color(escapeval):
     return ImageColor.getrgb('hsl(%d, 100%%, 50%%)' % (escapeval % 240))
 
+def get_args():
+    parser = argparse.ArgumentParser(description = "Produce image of Mandelbrot set")
+    parser.add_argument('-d', '--dimension',dest = 'dim', 
+            help = 'Dimension of generated image (width, height)', nargs = 2,
+            default = ['1000', '1000'])
+    parser.add_argument('-c', '--center', dest = 'center', nargs = 2,
+            help = 'The center of the plane to graph (x, y)',
+            default = ['0', '0'])
+    parser.add_argument('-b', '--bound', dest = 'bound', nargs = 2,
+            help = 'Bounds of the graph (x, y)',
+            default = ['2', '2'])
+    parser.add_argument('-r', '--resolution', dest = 'resolution',
+            help = 'Max number of iterations for each point',
+            default = '500')
+
+    args = parser.parse_args()
+    return int(args.dim[0]), int(args.dim[1]), float(args.center[0]), float(args.center[1]), float(args.bound[0]), float(args.bound[1]), int(args.resolution)
+
 def gen_mandelbrot():
-    height = 1000
-    width = 1000
-    xbound = 2.1
-    ybound = 2.1
-    xcenter = 0
-    ycenter = 0
-    resolution = 400
+    width, height, xcenter, ycenter, xbound, ybound, resolution = get_args()
 
     xstep = 2 * xbound / width 
     ystep = 2 * ybound / height
