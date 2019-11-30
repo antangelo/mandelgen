@@ -28,12 +28,15 @@ def get_args():
     parser.add_argument('-r', '--resolution', dest = 'resolution',
             help = 'Max number of iterations for each point',
             default = '500')
+    parser.add_argument('-o', '--output', dest = 'output',
+            help = 'Output location for the generated image', default = None)
 
     args = parser.parse_args()
-    return int(args.dim[0]), int(args.dim[1]), float(args.center[0]), float(args.center[1]), float(args.bound[0]), float(args.bound[1]), int(args.resolution)
+    return (int(args.dim[0]), int(args.dim[1]), float(args.center[0]), float(args.center[1]), 
+            float(args.bound[0]), float(args.bound[1]), int(args.resolution), args.output)
 
 def gen_mandelbrot():
-    width, height, xcenter, ycenter, xbound, ybound, resolution = get_args()
+    width, height, xcenter, ycenter, xbound, ybound, resolution, output = get_args()
 
     xstep = 2 * xbound / width 
     ystep = 2 * ybound / height
@@ -53,7 +56,10 @@ def gen_mandelbrot():
             else:
                 img.putpixel(imgpoint, get_color(escape))
 
-    img.show()
+    if output:
+        img.save(output)
+    else:
+        img.show()
 
 if __name__ == "__main__":
     gen_mandelbrot()
