@@ -4,7 +4,7 @@ This is a simple program that draws the Mandelbrot set
 
 ## Usage
 
-`python3 mandelgen.py [-d width height] [-b xmax ymax] [-c xpos ypox] [-r resolution]`
+`python3 mandelgen.py [-d width height] [-b xmax ymax] [-c xpos ypos] [-r resolution]`
 
 The arguments, in order, are:
 
